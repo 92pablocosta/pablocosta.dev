@@ -58,32 +58,12 @@ const PROJECTS = [
     ],
     stack: ["Next.js", "Gemini 2.5 Flash", "Clerk", "Stripe", "Railway"],
     github: "https://github.com/92pablocosta",
-    demo: "https://vishpath.com.au",
+    demo: null,
     glyph: [
       "  GET  /visas/:type          → AI-guided pathway",
       "  POST /auth/session         → Clerk",
       "  POST /billing/checkout     → Stripe",
       "  GET  /dashboard            → user journey state",
-    ].join("\n"),
-  },
-  {
-    id: "triage",
-    n: "03",
-    name: "AI Triage Agent",
-    problem: "Customer-support routing agent that classifies inbound tickets and drafts replies, powered by LLaMA 3.3 served through Groq for low latency.",
-    status: "prototype",
-    statusLabel: "open-source",
-    meta: [
-      { k: "model",   v: "LLaMA 3.3 70B" },
-      { k: "latency", v: "~400ms p95" },
-    ],
-    stack: ["Python", "FastAPI", "Groq", "LLaMA 3.3"],
-    github: "https://github.com/92pablocosta",
-    demo: null,
-    glyph: [
-      "  ticket ─▶ classify ─▶ route ─▶ draft reply",
-      "             │            │          │",
-      "          (intent)     (queue)   (LLaMA 3.3)",
     ].join("\n"),
   },
 ];
@@ -103,10 +83,17 @@ const CLIENTS = [
     badgeLabel: "live",
     link: null,
   },
+  {
+    name: "Law Firm (São Paulo)",
+    desc: "Legal process monitoring automation · Python + CNJ API",
+    badge: "production",
+    badgeLabel: "production",
+    link: null,
+  },
 ];
 
-const STACK_PROD = ["Java", "Spring Boot", "PostgreSQL", "Docker", "n8n", "OpenAI API", "Evolution API"];
-const STACK_LEARN = ["Python", "LangChain", "RAG", "LLM evaluation", "LangGraph"];
+const STACK_PROD = ["Python", "n8n", "OpenAI API", "Evolution API", "PostgreSQL", "Docker", "Java", "Spring Boot"];
+const STACK_LEARN = ["LangGraph", "FastMCP", "RAG", "LLM evaluation", "Langfuse", "Next.js"];
 
 /* ─── live time ────────────────────────────────────────────────────────── */
 
@@ -230,7 +217,7 @@ function HeroTerminal() {
           <span className="k">role</span><span className="v">AI Automation Engineer · Backend Dev</span>
         </span>
         <span className="out">
-          <span className="k">location</span><span className="v">São Paulo, BR <span style={{color:"var(--fg-faint)"}}>(4y in Australia)</span></span>
+          <span className="k">location</span><span className="v">João Pessoa, BR <span style={{color:"var(--fg-faint)"}}>(4y in Australia)</span></span>
         </span>
         <span className="out">
           <span className="k">stack</span><span className="v">Java · Spring · n8n · OpenAI · Postgres</span>
@@ -290,7 +277,7 @@ function HeroStatus() {
       </div>
       <aside className="meta-block">
         <div><span className="k">name</span><span className="v">Pablo Costa</span></div>
-        <div><span className="k">based</span><span className="v">São Paulo, BR</span></div>
+        <div><span className="k">based</span><span className="v">João Pessoa, BR</span></div>
         <div><span className="k">local</span><span className="v" style={{fontVariantNumeric:"tabular-nums"}}>{time}</span></div>
         <div><span className="k">english</span><span className="v">fluent (AU, 4y)</span></div>
         <div><span className="k">remote</span><span className="v accent">● available</span></div>
@@ -473,7 +460,7 @@ function About() {
         <div className="about-grid">
           <dl className="facts">
             <dt>// origin</dt>
-            <dd>São Paulo, Brazil 🇧🇷</dd>
+            <dd>João Pessoa, Brazil 🇧🇷</dd>
             <dt>// english</dt>
             <dd>fluent — 4 years in Australia 🇦🇺</dd>
             <dt>// trajectory</dt>
@@ -569,7 +556,7 @@ function Footer() {
         <div className="l">
           <span>// pablocosta.dev</span>
           <span>// {new Date().getFullYear()}</span>
-          <span>// São Paulo · UTC-3</span>
+          <span>// João Pessoa · UTC-3</span>
         </div>
         <div className="r">
           built by hand · no trackers · no cookies
