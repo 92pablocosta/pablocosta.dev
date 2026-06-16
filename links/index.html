@@ -66,7 +66,7 @@
 
     .card {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       display: flex;
       flex-direction: column;
       gap: 0;
@@ -121,9 +121,10 @@
 
     .role {
       font-family: var(--mono);
-      font-size: 12px;
+      font-size: 11px;
       color: var(--fg-dim);
       letter-spacing: 0.02em;
+      white-space: nowrap;
     }
 
     .role .sep { color: var(--fg-faint); margin: 0 6px; }
@@ -140,6 +141,7 @@
       border-radius: 999px;
       background: var(--accent-bg);
       margin-top: 2px;
+      white-space: nowrap;
     }
 
     .status-pill .dot {
@@ -384,7 +386,11 @@
       <div class="links-group">
 
         <a href="https://dentbot.com.br" target="_blank" rel="noreferrer" class="link-item">
-          <div class="link-icon" style="font-size:17px;">🦷</div>
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 5.86 2 10.5c0 2.64 1.42 5 3.66 6.55-.13 1.2-.6 2.5-1.5 3.5 1.7-.1 3.27-.66 4.5-1.6 1.06.3 2.18.45 3.34.45 5.52 0 10-3.86 10-8.5S17.52 2 12 2z"/>
+            </svg>
+          </div>
           <div class="link-text">
             <span class="link-name">DentBot</span>
             <span class="link-desc">WhatsApp AI receptionist · production</span>
@@ -393,7 +399,11 @@
         </a>
 
         <a href="https://pablocosta.dev" target="_blank" rel="noreferrer" class="link-item">
-          <div class="link-icon" style="font-size:17px;">⚡</div>
+          <div class="link-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 4h18a2 2 0 012 2v12a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2zm3.7 4.3L5.3 9.7 7.6 12l-2.3 2.3 1.4 1.4L10.4 12 6.7 8.3zM12 14h5v2h-5v-2z"/>
+            </svg>
+          </div>
           <div class="link-text">
             <span class="link-name">Portfolio</span>
             <span class="link-desc">pablocosta.dev</span>
