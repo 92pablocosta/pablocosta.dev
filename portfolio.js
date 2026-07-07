@@ -46,24 +46,29 @@ const PROJECTS = [
     ].join("\n"),
   },
   {
-    id: "vishpath",
+    id: "trt2-scraper",
     n: "02",
-    name: "VishPath AU",
-    problem: "SaaS that helps Brazilian immigrants research Australian visa pathways — live product with Stripe payments and Clerk auth.",
-    status: "live",
-    statusLabel: "live SaaS · paid",
+    name: "TRT2 Court Scraper",
+    problem: "Production scraper for a Brazilian law firm that monitors PJe/TRT2 court communications, extracts newly distributed labor cases, handles unavailable cadernos with retry/fallback pagination, and exports a resilient Excel workflow delivered as a standalone Windows .exe.",
+    status: "production",
+    statusLabel: "shipped as .exe",
     meta: [
-      { k: "auth",     v: "Clerk" },
-      { k: "payments", v: "Stripe" },
+      { k: "client", v: "Law Firm, Brazil" },
+      { k: "delivery", v: "Windows .exe" },
     ],
-    stack: ["Next.js", "Gemini 2.5 Flash", "Clerk", "Stripe", "Railway"],
-    github: "https://github.com/92pablocosta",
+    stack: ["Python 3.12", "PJe Comunica API", "urllib", "regex", "pandas", "openpyxl", "Tkinter", "PyInstaller"],
+    github: null,
     demo: null,
     glyph: [
-      "  GET  /visas/:type          → AI-guided pathway",
-      "  POST /auth/session         → Clerk",
-      "  POST /billing/checkout     → Stripe",
-      "  GET  /dashboard            → user journey state",
+      "  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐",
+      "  │ PJe Comunica │──▶│ caderno ZIP  │──▶│ block filter │",
+      "  │ public API   │   │ D+E / pages  │   │ regex rules  │",
+      "  └──────────────┘   └──────┬───────┘   └──────┬───────┘",
+      "                            │ fallback         ▼",
+      "                            │          ┌──────────────┐",
+      "                            └────────▶│ Excel export │",
+      "                                       │ .xlsx + .exe │",
+      "                                       └──────────────┘",
     ].join("\n"),
   },
 ];
@@ -83,29 +88,22 @@ const CLIENTS = [
     badgeLabel: "live",
     link: null,
   },
-  {
-    name: "Law Firm (São Paulo)",
-    desc: "Legal process monitoring automation · Python + CNJ API",
-    badge: "production",
-    badgeLabel: "production",
-    link: null,
-  },
 ];
 
-const STACK_PROD = ["Python", "n8n", "OpenAI API", "Evolution API", "PostgreSQL", "Docker", "Java", "Spring Boot"];
-const STACK_LEARN = ["LangGraph", "FastMCP", "RAG", "LLM evaluation", "Langfuse", "Next.js"];
+const STACK_PROD = ["Python", "n8n", "OpenAI API", "Evolution API", "PostgreSQL", "Docker", "Traefik", "Redis"];
+const STACK_LEARN = ["RAG", "LLM evaluation", "Langfuse", "Next.js", "pytest", "FastAPI"];
 
 /* ─── live time ────────────────────────────────────────────────────────── */
 
-function useSaoPauloTime() {
-  const [t, setT] = React.useState(() => formatSP(new Date()));
+function useJoaoPessoaTime() {
+  const [t, setT] = React.useState(() => formatJP(new Date()));
   React.useEffect(() => {
-    const id = setInterval(() => setT(formatSP(new Date())), 1000);
+    const id = setInterval(() => setT(formatJP(new Date())), 1000);
     return () => clearInterval(id);
   }, []);
   return t;
 }
-function formatSP(d) {
+function formatJP(d) {
   try {
     return new Intl.DateTimeFormat("en-GB", {
       hour: "2-digit", minute: "2-digit", second: "2-digit",
@@ -139,7 +137,7 @@ function useReveal() {
 /* ─── header ───────────────────────────────────────────────────────────── */
 
 function Header() {
-  const time = useSaoPauloTime();
+  const time = useJoaoPessoaTime();
   return (
     <header className="site-header">
       <div className="wrap">
@@ -155,7 +153,7 @@ function Header() {
           <a href="#about"><span className="n">04</span>about</a>
           <a href="#contact" className="always"><span className="n">05</span>contact</a>
           <span className="clock">
-            <span className="city">São Paulo</span>
+            <span className="city">João Pessoa</span>
             <span className="time">{time}</span>
           </span>
         </nav>
@@ -184,8 +182,8 @@ function HeroEditorial() {
       </p>
       <p className="oneliner">
         Brazilian engineer, <span className="hl">4 years in Australia</span>, building
-        production AI &mdash; WhatsApp bots, SaaS platforms, LLM integrations &mdash; for real
-        clients, not demos.
+        production AI &mdash; WhatsApp bots, court data pipelines, LLM integrations &mdash;
+        for real clients, not demos.
       </p>
       <div className="ctas">
         <a href="#projects" className="btn primary">
@@ -246,7 +244,7 @@ function HeroTerminal() {
 }
 
 function HeroStatus() {
-  const time = useSaoPauloTime();
+  const time = useJoaoPessoaTime();
   return (
     <div className="hero-status reveal in">
       <div>
@@ -264,7 +262,7 @@ function HeroStatus() {
         </p>
         <p className="oneliner">
           <span className="hl">4 years in Australia</span>. Building AI systems that
-          actually ship — WhatsApp bots, SaaS, LLM pipelines for real clients.
+          actually ship — WhatsApp bots, scrapers, LLM pipelines for real clients.
         </p>
         <div className="ctas">
           <a href="#projects" className="btn primary">
@@ -338,7 +336,7 @@ function ProjectCard({ p, showGlyph }) {
         )}
         {p.demo && (
           <>
-            <span className="sep">·</span>
+            {p.github && <span className="sep">·</span>}
             <a href={p.demo} target="_blank" rel="noreferrer">
               live demo <span className="arr">↗</span>
             </a>
@@ -346,7 +344,7 @@ function ProjectCard({ p, showGlyph }) {
         )}
         {!p.demo && (
           <>
-            <span className="sep">·</span>
+            {p.github && <span className="sep">·</span>}
             <span style={{color:"var(--fg-faint)"}}>
               {p.status === "production" ? "private deployment" : "demo on request"}
             </span>
@@ -463,6 +461,8 @@ function About() {
             <dd>João Pessoa, Brazil 🇧🇷</dd>
             <dt>// english</dt>
             <dd>fluent — 4 years in Australia 🇦🇺</dd>
+            <dt>// education</dt>
+            <dd>B.Tech Internet Systems — UNIESP (2026)</dd>
             <dt>// trajectory</dt>
             <dd>Java backend → AI automation</dd>
             <dt>// target</dt>
@@ -480,8 +480,12 @@ function About() {
               My background is Java backend &mdash; Spring Boot, Postgres, Docker, the
               boring infrastructure that has to actually work. Over the past two years
               I&apos;ve been pulling that experience into AI automation: WhatsApp agents
-              for real clinics, SaaS products with paying users, LLM pipelines that
-              live in production and not in a notebook.
+              for real clinics, court data pipelines, self-hosted workflows, LLM
+              systems that live in production and not in a notebook.
+              I&apos;ve also tested local fine-tuning with MLX + LoRA on Llama-3.2-3B
+              on an M1, then chose RAG for that use case because it fit the problem
+              better. LLM data evaluation and annotation work, including Outlier,
+              also informs how I judge model output quality beyond happy-path demos.
             </p>
             <p>
               I&apos;m most useful where the AI hype meets the part nobody wants to do
