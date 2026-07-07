@@ -31,8 +31,13 @@ const PROJECTS = [
       { k: "region", v: "Brazil" },
     ],
     stack: ["n8n", "Evolution API", "OpenAI", "Docker", "PostgreSQL"],
-    github: "https://github.com/92pablocosta",
+    github: null,
     demo: null,
+    decisions: [
+      "n8n separates WhatsApp intake, model calls, and booking persistence.",
+      "Evolution API keeps the WhatsApp integration outside the application core.",
+      "Private deployment: architecture is documented without exposing client or patient data.",
+    ],
     glyph: [
       "  ┌─────────────┐   ┌──────────┐   ┌──────────┐",
       "  │  WhatsApp   │──▶│   n8n    │──▶│  OpenAI  │",
@@ -59,6 +64,12 @@ const PROJECTS = [
     stack: ["Python 3.12", "PJe Comunica API", "urllib", "regex", "pandas", "openpyxl", "Tkinter", "PyInstaller"],
     github: null,
     demo: null,
+    decisions: [
+      "Caderno ZIP D+E is the default ingestion path, with paginated API fallback.",
+      "Retry logic handles temporary API, ZIP, and rate-limit failures.",
+      "Regex-based filters isolate newly distributed cases from full court text.",
+      "Packaged as a standalone Windows .exe for non-technical end users.",
+    ],
     glyph: [
       "  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐",
       "  │ PJe Comunica │──▶│ caderno ZIP  │──▶│ block filter │",
@@ -69,6 +80,39 @@ const PROJECTS = [
       "                            └────────▶│ Excel export │",
       "                                       │ .xlsx + .exe │",
       "                                       └──────────────┘",
+    ].join("\n"),
+  },
+  {
+    id: "vps-infra",
+    n: "03",
+    name: "Self-Hosted Infrastructure",
+    problem: "Production VPS stack running client workloads and personal projects — reverse proxy, workflow automation, messaging, and data layer, hardened and self-managed end to end.",
+    status: "production",
+    statusLabel: "running in production",
+    meta: [
+      { k: "provider", v: "Hostinger VPS" },
+      { k: "os", v: "Ubuntu 24.04" },
+      { k: "hardening", v: "SSH key-only, ufw, fail2ban, docker-socket-proxy" },
+    ],
+    stack: ["Docker", "Traefik", "PostgreSQL", "Redis", "n8n", "Evolution API", "Chatwoot"],
+    github: null,
+    demo: null,
+    decisions: [
+      "Traefik handles reverse proxying and TLS for containerized services.",
+      "PostgreSQL and Redis back the automation, messaging, and support stack.",
+      "Host access is locked down with SSH keys, firewall rules, and fail2ban.",
+      "docker-socket-proxy limits container-management exposure.",
+    ],
+    glyph: [
+      "  ┌─────────────┐   ┌──────────┐   ┌──────────────┐",
+      "  │  Internet   │──▶│ Traefik  │──▶│  containers  │",
+      "  │  HTTPS/TLS  │   │ proxy    │   │ n8n/chat/api │",
+      "  └─────────────┘   └────┬─────┘   └──────┬───────┘",
+      "                         │                ▼",
+      "                         │         ┌──────────────┐",
+      "                         └────────▶│ Postgres     │",
+      "                                   │ Redis        │",
+      "                                   └──────────────┘",
     ].join("\n"),
   },
 ];
@@ -91,7 +135,7 @@ const CLIENTS = [
 ];
 
 const STACK_PROD = ["Python", "n8n", "OpenAI API", "Evolution API", "PostgreSQL", "Docker", "Traefik", "Redis"];
-const STACK_LEARN = ["RAG", "LLM evaluation", "Langfuse", "Next.js", "pytest", "FastAPI"];
+const STACK_LEARN = ["LangGraph", "RAG", "LLM evaluation", "pytest", "FastAPI"];
 
 /* ─── live time ────────────────────────────────────────────────────────── */
 
@@ -150,8 +194,9 @@ function Header() {
           <a href="#projects" className="always"><span className="n">01</span>projects</a>
           <a href="#clients"><span className="n">02</span>clients</a>
           <a href="#stack"><span className="n">03</span>stack</a>
-          <a href="#about"><span className="n">04</span>about</a>
-          <a href="#contact" className="always"><span className="n">05</span>contact</a>
+          <a href="#evaluation"><span className="n">04</span>eval</a>
+          <a href="#about"><span className="n">05</span>about</a>
+          <a href="#contact" className="always"><span className="n">06</span>contact</a>
           <span className="clock">
             <span className="city">João Pessoa</span>
             <span className="time">{time}</span>
@@ -178,7 +223,7 @@ function HeroEditorial() {
       <p className="role mono">
         AI Automation Engineer
         <span className="sep">·</span>
-        Backend Developer
+        Python Backend
       </p>
       <p className="oneliner">
         Brazilian engineer, <span className="hl">4 years in Australia</span>, building
@@ -191,6 +236,9 @@ function HeroEditorial() {
         </a>
         <a href="#contact" className="btn">
           Get in touch <span className="arr">↗</span>
+        </a>
+        <a href="/resume.pdf" className="btn" download>
+          Download résumé <span className="arr">↓</span>
         </a>
       </div>
     </div>
@@ -212,13 +260,13 @@ function HeroTerminal() {
           <span className="k">name</span><span className="v">Pablo Costa</span>
         </span>
         <span className="out">
-          <span className="k">role</span><span className="v">AI Automation Engineer · Backend Dev</span>
+          <span className="k">role</span><span className="v">AI Automation Engineer · Python Backend</span>
         </span>
         <span className="out">
           <span className="k">location</span><span className="v">João Pessoa, BR <span style={{color:"var(--fg-faint)"}}>(4y in Australia)</span></span>
         </span>
         <span className="out">
-          <span className="k">stack</span><span className="v">Java · Spring · n8n · OpenAI · Postgres</span>
+          <span className="k">stack</span><span className="v">Python · n8n · OpenAI · Postgres</span>
         </span>
         <span className="out">
           <span className="k">status</span><span className="v green">● available for remote roles</span>
@@ -237,6 +285,9 @@ function HeroTerminal() {
         </a>
         <a href="#contact" className="btn">
           ./contact <span className="arr">↗</span>
+        </a>
+        <a href="/resume.pdf" className="btn" download>
+          ./resume.pdf <span className="arr">↓</span>
         </a>
       </div>
     </div>
@@ -258,7 +309,7 @@ function HeroStatus() {
         <p className="role mono">
           AI Automation Engineer
           <span className="sep">·</span>
-          Backend Developer
+          Python Backend
         </p>
         <p className="oneliner">
           <span className="hl">4 years in Australia</span>. Building AI systems that
@@ -271,6 +322,9 @@ function HeroStatus() {
           <a href="#contact" className="btn">
             Get in touch <span className="arr">↗</span>
           </a>
+          <a href="/resume.pdf" className="btn" download>
+            Download résumé <span className="arr">↓</span>
+          </a>
         </div>
       </div>
       <aside className="meta-block">
@@ -279,7 +333,7 @@ function HeroStatus() {
         <div><span className="k">local</span><span className="v" style={{fontVariantNumeric:"tabular-nums"}}>{time}</span></div>
         <div><span className="k">english</span><span className="v">fluent (AU, 4y)</span></div>
         <div><span className="k">remote</span><span className="v accent">● available</span></div>
-        <div><span className="k">focus</span><span className="v">AI eng · backend</span></div>
+        <div><span className="k">focus</span><span className="v">AI eng · Python backend</span></div>
       </aside>
     </div>
   );
@@ -324,6 +378,12 @@ function ProjectCard({ p, showGlyph }) {
         ))}
       </div>
 
+      {p.decisions && p.decisions.length > 0 && (
+        <ul className="decisions">
+          {p.decisions.map((d) => <li key={d}>{d}</li>)}
+        </ul>
+      )}
+
       <div className="tags">
         {p.stack.map(s => <span key={s} className="tag">{s}</span>)}
       </div>
@@ -351,6 +411,7 @@ function ProjectCard({ p, showGlyph }) {
           </>
         )}
       </div>
+
     </article>
   );
 }
@@ -437,11 +498,42 @@ function Stack() {
             items={STACK_PROD}
           />
           <StackBlock
-            filename="learning.ts"
-            varname="building_with"
-            comment="// Actively using on new projects"
+            filename="current_focus.ts"
+            varname="current_focus"
+            comment="// Actively building toward, not yet production"
             items={STACK_LEARN}
           />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── evaluation ───────────────────────────────────────────────────────── */
+
+function Evaluation() {
+  return (
+    <section id="evaluation">
+      <div className="wrap">
+        <p className="section-label"><span className="num">04</span>AI evaluation experience</p>
+        <div className="eval-grid">
+          <div className="reveal">
+            <p className="lead">
+              I&apos;ve worked on rubric-based evaluation and annotation for generative
+              model outputs, including Outlier-style review work where the job is to
+              spot failures, not admire the demo.
+            </p>
+            <p>
+              That includes image-output evaluation across instruction following,
+              image consistency, quality, and AI-ness, plus error categorization and
+              side-by-side comparisons between model responses.
+            </p>
+          </div>
+          <div className="eval-list reveal">
+            <div><span className="k">rubrics</span><span className="v">4-axis review, 1-7 scoring</span></div>
+            <div><span className="k">workflow</span><span className="v">human-in-the-loop judgment</span></div>
+            <div><span className="k">focus</span><span className="v">failure modes, consistency, output quality</span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -454,7 +546,7 @@ function About() {
   return (
     <section id="about">
       <div className="wrap">
-        <p className="section-label"><span className="num">04</span>about</p>
+        <p className="section-label"><span className="num">05</span>about</p>
         <div className="about-grid">
           <dl className="facts">
             <dt>// origin</dt>
@@ -464,7 +556,7 @@ function About() {
             <dt>// education</dt>
             <dd>B.Tech Internet Systems — UNIESP (2026)</dd>
             <dt>// trajectory</dt>
-            <dd>Java backend → AI automation</dd>
+            <dd>backend engineering → AI automation</dd>
             <dt>// target</dt>
             <dd>international remote, AI eng roles</dd>
             <dt>// timezone</dt>
@@ -472,25 +564,22 @@ function About() {
           </dl>
           <div className="reveal">
             <p>
-              I'm a Brazilian software engineer who spent four years in Australia,
-              came back fluent in English and shipped product, and is now building toward
-              full-time remote work for international teams.
-            </p>
-            <p>
-              My background is Java backend &mdash; Spring Boot, Postgres, Docker, the
-              boring infrastructure that has to actually work. Over the past two years
-              I&apos;ve been pulling that experience into AI automation: WhatsApp agents
-              for real clinics, court data pipelines, self-hosted workflows, LLM
-              systems that live in production and not in a notebook.
-              I&apos;ve also tested local fine-tuning with MLX + LoRA on Llama-3.2-3B
-              on an M1, then chose RAG for that use case because it fit the problem
-              better. LLM data evaluation and annotation work, including Outlier,
-              also informs how I judge model output quality beyond happy-path demos.
-            </p>
-            <p>
               I&apos;m most useful where the AI hype meets the part nobody wants to do
               &mdash; wiring it to a database, putting it behind auth, monitoring it,
-              keeping it cheap. If that&apos;s the gap on your team, let&apos;s talk.
+              keeping it cheap. Recently, I&apos;ve been building AI automation in
+              production: WhatsApp agents for real clinics, court data pipelines,
+              self-hosted workflows, LLM systems that live in production and not in a
+              notebook. I&apos;ve also tested local fine-tuning with MLX + LoRA on
+              Llama-3.2-3B on an M1, then chose RAG for that use case because it fit
+              the problem better. LLM data evaluation and annotation work, including
+              Outlier, also informs how I judge model output quality beyond happy-path
+              demos.
+            </p>
+            <p>
+              My foundation is backend engineering &mdash; Java/Spring Boot, Postgres,
+              Docker &mdash; the boring infrastructure that has to actually work. That&apos;s
+              what lets me ship AI systems that don&apos;t fall over in production, not
+              just demos.
             </p>
           </div>
         </div>
@@ -514,7 +603,7 @@ function Contact() {
   return (
     <section id="contact">
       <div className="wrap">
-        <p className="section-label"><span className="num">05</span>contact</p>
+        <p className="section-label"><span className="num">06</span>contact</p>
         <div className="contact">
           <div className="reveal">
             <p className="lead">
@@ -574,6 +663,7 @@ function Footer() {
 
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const editMode = new URLSearchParams(window.location.search).get("edit") === "true";
   useReveal();
 
   // Apply theme tweaks at document level so :root variables flip globally.
@@ -591,52 +681,55 @@ function App() {
         <Projects cardVariant={t.cardVariant} />
         <Clients />
         <Stack />
+        <Evaluation />
         <About />
         <Contact />
       </main>
       <Footer />
 
-      <TweaksPanel title="Tweaks">
-        <TweakSection label="Theme">
-          <TweakColor
-            label="Accent"
-            value={t.accent}
-            options={["#4ADE80", "#60A5FA", "#FBBF24", "#F472B6"]}
-            onChange={(v) => setTweak("accent", v)}
-          />
-          <TweakSelect
-            label="Background"
-            value={t.background}
-            options={[
-              { value: "deep",  label: "Deep black" },
-              { value: "dim",   label: "Dim (default)" },
-              { value: "paper", label: "Paper dark" },
-            ]}
-            onChange={(v) => setTweak("background", v)}
-          />
-        </TweakSection>
-        <TweakSection label="Layout">
-          <TweakSelect
-            label="Hero variant"
-            value={t.heroVariant}
-            options={[
-              { value: "editorial", label: "Editorial (clean)" },
-              { value: "terminal",  label: "Terminal ($ whoami)" },
-              { value: "status",    label: "Status block (metadata)" },
-            ]}
-            onChange={(v) => setTweak("heroVariant", v)}
-          />
-          <TweakRadio
-            label="Cards"
-            value={t.cardVariant}
-            options={[
-              { value: "text",  label: "Text" },
-              { value: "ascii", label: "+ASCII" },
-            ]}
-            onChange={(v) => setTweak("cardVariant", v)}
-          />
-        </TweakSection>
-      </TweaksPanel>
+      {editMode && (
+        <TweaksPanel title="Tweaks">
+          <TweakSection label="Theme">
+            <TweakColor
+              label="Accent"
+              value={t.accent}
+              options={["#4ADE80", "#60A5FA", "#FBBF24", "#F472B6"]}
+              onChange={(v) => setTweak("accent", v)}
+            />
+            <TweakSelect
+              label="Background"
+              value={t.background}
+              options={[
+                { value: "deep",  label: "Deep black" },
+                { value: "dim",   label: "Dim (default)" },
+                { value: "paper", label: "Paper dark" },
+              ]}
+              onChange={(v) => setTweak("background", v)}
+            />
+          </TweakSection>
+          <TweakSection label="Layout">
+            <TweakSelect
+              label="Hero variant"
+              value={t.heroVariant}
+              options={[
+                { value: "editorial", label: "Editorial (clean)" },
+                { value: "terminal",  label: "Terminal ($ whoami)" },
+                { value: "status",    label: "Status block (metadata)" },
+              ]}
+              onChange={(v) => setTweak("heroVariant", v)}
+            />
+            <TweakRadio
+              label="Cards"
+              value={t.cardVariant}
+              options={[
+                { value: "text",  label: "Text" },
+                { value: "ascii", label: "+ASCII" },
+              ]}
+              onChange={(v) => setTweak("cardVariant", v)}
+            />
+          </TweakSection>
+        </TweaksPanel>
+      )}
     </>
   );
 }
