@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pablo Costa — Python / Applied AI Engineer</title>
-  <meta name="description" content="Pablo Costa is a Python / Applied AI Engineer building LLM-powered automation systems, API integrations, workflow software, and self-hosted infrastructure.">
-  <meta name="theme-color" content="#f5f5f1">
+  <meta name="description" content="Pablo Costa is a Python / Applied AI Engineer building LLM-powered automation systems, Python software, workflow integrations, and self-hosted infrastructure.">
+  <meta name="theme-color" content="#f7f6f1">
   <link rel="canonical" href="https://pablocosta.dev/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
@@ -54,216 +54,184 @@
   <main id="main">
     <section class="hero" id="top">
       <div class="shell hero-grid">
-        <div>
-          <p class="kicker">Python / Applied AI Engineer</p>
-          <h1>I build software around LLMs, not just prompts.</h1>
-        </div>
         <div class="hero-copy">
-          <p class="lede">I build and operate LLM-powered automation systems, Python software, and workflow integrations.</p>
-          <p class="secondary">My work sits where model behavior meets ordinary software: APIs, explicit state, deterministic routing, human handoff, external actions, and the infrastructure required to keep the system running.</p>
-          <div class="link-row" aria-label="Profile links">
+          <p class="eyebrow">Python / Applied AI Engineer</p>
+          <h1>I build software around LLMs, not just prompts.</h1>
+          <p class="hero-lede">I build and operate LLM-powered automation systems, Python software, and workflow integrations.</p>
+          <p class="hero-secondary">I care about the software around the model: APIs, explicit state, deterministic routing, human control, external actions, and the infrastructure required to keep a system running.</p>
+          <div class="hero-links" aria-label="Profile links">
             <a href="https://github.com/92pablocosta">GitHub <span aria-hidden="true">↗</span></a>
             <a href="https://linkedin.com/in/pablocosta-dev">LinkedIn <span aria-hidden="true">↗</span></a>
             <a href="mailto:92pablocosta@gmail.com">Email <span aria-hidden="true">↗</span></a>
           </div>
           <p class="availability">Brazil · Fluent English · Open to remote roles worldwide</p>
         </div>
+
+        <aside class="hero-visual" aria-label="System design illustration">
+          <div class="visual-note">Applied AI works best when the model has clear boundaries.</div>
+          <div class="system-map" aria-hidden="true">
+            <div class="system-label">real-world input</div>
+            <div class="system-line"></div>
+            <div class="system-node system-node-model">LLM<br><span>reasoning / language</span></div>
+            <div class="system-line"></div>
+            <div class="system-node system-node-core">software layer<br><span>state · routing · validation</span></div>
+            <div class="system-branches">
+              <div>APIs</div>
+              <div>human handoff</div>
+              <div>side effects</div>
+            </div>
+          </div>
+          <p class="visual-caption">Model behavior is one part of the system. The rest should remain inspectable.</p>
+        </aside>
       </div>
     </section>
 
     <section class="work" id="work" aria-labelledby="work-title">
       <div class="shell">
-        <div class="section-heading">
-          <p class="section-index">01</p>
-          <div>
-            <h2 id="work-title">Selected engineering work</h2>
-            <p>Four projects, each with public evidence you can inspect.</p>
-          </div>
+        <div class="section-intro">
+          <p class="eyebrow">Selected engineering work</p>
+          <h2 id="work-title">Evidence before claims.</h2>
+          <p>Four projects with public code, live systems, or documented engineering decisions you can inspect.</p>
         </div>
 
-        <article class="project project-featured">
-          <div class="project-heading">
-            <div>
-              <p class="project-type">Applied AI · Workflow automation</p>
-              <h3>DentBot</h3>
+        <article class="featured-project">
+          <div class="featured-copy">
+            <p class="project-type">Featured · Applied AI / workflow automation</p>
+            <h3>DentBot</h3>
+            <p class="project-lede">A real WhatsApp automation system for dental clinics, built around LLMs, deterministic workflow logic, explicit state, and human control.</p>
+            <p class="project-body">The current system runs primarily through n8n and integrations rather than a substantial Python backend. The public engineering case study documents production-derived architecture; reconstructed examples are clearly separated from private production code.</p>
+            <div class="evidence-links">
+              <a href="https://github.com/92pablocosta/dentbot-engineering-case-study">Engineering case study <span aria-hidden="true">↗</span></a>
+              <a href="https://dentbot.com.br">Live product <span aria-hidden="true">↗</span></a>
+              <a href="https://github.com/92pablocosta/dentbot-core">Python rebuild <span aria-hidden="true">↗</span></a>
             </div>
-            <p class="project-number">01</p>
+            <div class="project-facts" aria-label="DentBot engineering facts">
+              <span>Meta WhatsApp Cloud API</span>
+              <span>Chatwoot</span>
+              <span>n8n</span>
+              <span>LLM APIs</span>
+              <span>explicit state</span>
+              <span>human handoff</span>
+            </div>
           </div>
-          <div class="project-grid">
-            <div class="project-summary">
-              <p class="project-lede">A real WhatsApp automation system for dental clinics, built around LLMs, deterministic workflow logic, explicit state, and human control.</p>
-              <p>DentBot currently runs primarily through n8n and integrations rather than a substantial Python backend. The public engineering case study documents the production-derived architecture and includes reconstructed Python examples for selected boundaries; those examples are not the private production source.</p>
-              <div class="evidence-links">
-                <a href="https://github.com/92pablocosta/dentbot-engineering-case-study">Engineering case study <span aria-hidden="true">↗</span></a>
-                <a href="https://dentbot.com.br">Live product <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/92pablocosta/dentbot-core">Python rebuild <span aria-hidden="true">↗</span></a>
+
+          <div class="dentbot-diagram" aria-label="Simplified DentBot architecture">
+            <div class="diagram-title">Simplified architecture</div>
+            <div class="diagram-flow">
+              <div class="diagram-source">
+                <span>WhatsApp</span>
+                <small>patient conversation</small>
+              </div>
+              <span class="diagram-arrow" aria-hidden="true">→</span>
+              <div class="diagram-core">
+                <span>Workflow layer</span>
+                <small>routing · state · validation</small>
+              </div>
+              <span class="diagram-arrow" aria-hidden="true">→</span>
+              <div class="diagram-output">
+                <div><span>LLM</span><small>structured response</small></div>
+                <div><span>Chatwoot</span><small>conversation + history</small></div>
+                <div><span>Human</span><small>handoff when needed</small></div>
               </div>
             </div>
-            <dl class="project-details">
-              <div>
-                <dt>Engineering focus</dt>
-                <dd>LLM contracts, conversation context, persistent workflow state, deterministic routing, side-effect verification, human handoff.</dd>
-              </div>
-              <div>
-                <dt>System</dt>
-                <dd>Meta WhatsApp Cloud API, Chatwoot, n8n, LLM APIs, webhooks, explicit workflow state.</dd>
-              </div>
-              <div>
-                <dt>What it demonstrates</dt>
-                <dd>Applied AI system design and operating judgment — not a claim of a large Python backend.</dd>
-              </div>
-            </dl>
+            <p>External actions stay behind deterministic workflow boundaries instead of being treated as model authority.</p>
           </div>
         </article>
 
-        <article class="project">
-          <div class="project-heading">
-            <div>
-              <p class="project-type">Python · Data pipeline</p>
-              <h3>Court Notice Triage</h3>
-            </div>
-            <p class="project-number">02</p>
-          </div>
-          <div class="project-grid">
-            <div class="project-summary">
-              <p class="project-lede">A sanitized Python case study based on a real legal-operations workflow that turns high-volume court publications into a small, review-ready Excel output.</p>
-              <p>The public version keeps the engineering decisions while replacing private data and proprietary rules with synthetic fixtures and explainable policy checks.</p>
-              <div class="evidence-links">
-                <a href="https://github.com/92pablocosta/court-notice-triage">View repository <span aria-hidden="true">↗</span></a>
-              </div>
-            </div>
-            <dl class="project-details">
-              <div>
-                <dt>Engineering focus</dt>
-                <dd>Defensive parsing, explainable filtering, domain identity, deduplication, CLI design, Excel export, tests and CI.</dd>
-              </div>
-              <div>
-                <dt>Stack</dt>
-                <dd>Python 3.12, pytest, openpyxl, command-line tooling, GitHub Actions.</dd>
-              </div>
-              <div>
-                <dt>What it demonstrates</dt>
-                <dd>My most direct public evidence of Python engineering and translating messy operational rules into inspectable software.</dd>
-              </div>
-            </dl>
-          </div>
-        </article>
+        <div class="project-grid">
+          <article class="project-card">
+            <p class="project-type">Python · Data pipeline</p>
+            <h3>Court Notice Triage</h3>
+            <p>A sanitized Python case study based on a real legal-operations workflow that turns high-volume court publications into review-ready structured output.</p>
+            <ul>
+              <li>defensive parsing and explainable filtering</li>
+              <li>deduplication, CLI, Excel export</li>
+              <li>tests and CI</li>
+            </ul>
+            <a class="project-link" href="https://github.com/92pablocosta/court-notice-triage">View repository <span aria-hidden="true">↗</span></a>
+          </article>
 
-        <article class="project">
-          <div class="project-heading">
-            <div>
-              <p class="project-type">Infrastructure · Reliability</p>
-              <h3>VPS Public Portfolio</h3>
+          <article class="project-card">
+            <p class="project-type">Infrastructure · Reliability</p>
+            <h3>VPS Public Portfolio</h3>
+            <p>A public, sanitized case study of the Ubuntu environment I build and operate for real workloads, with emphasis on exposure, recovery, monitoring and tested backups.</p>
+            <ul>
+              <li>Docker Compose + Traefik</li>
+              <li>Uptime Kuma + host hardening</li>
+              <li>Restic + B2 + restore verification</li>
+            </ul>
+            <div class="card-links">
+              <a class="project-link" href="https://github.com/92pablocosta/vps-public-portfolio">Case study <span aria-hidden="true">↗</span></a>
+              <a class="project-link" href="https://pcvps.tech">Live <span aria-hidden="true">↗</span></a>
             </div>
-            <p class="project-number">03</p>
-          </div>
-          <div class="project-grid">
-            <div class="project-summary">
-              <p class="project-lede">A public, sanitized case study of the single-node Ubuntu environment I build and operate for real workloads.</p>
-              <p>The emphasis is not “I installed Docker.” It is exposure control, recoverability, monitoring, tested failure paths, backup verification, and documenting what remains unproven.</p>
-              <div class="evidence-links">
-                <a href="https://github.com/92pablocosta/vps-public-portfolio">Engineering case study <span aria-hidden="true">↗</span></a>
-                <a href="https://pcvps.tech">Live environment page <span aria-hidden="true">↗</span></a>
-              </div>
-            </div>
-            <dl class="project-details">
-              <div>
-                <dt>Engineering focus</dt>
-                <dd>TLS, reverse proxying, network exposure, monitoring, host hardening, encrypted off-site backups, restore verification and recovery.</dd>
-              </div>
-              <div>
-                <dt>Stack</dt>
-                <dd>Ubuntu Server, Docker Compose, Traefik, n8n, Uptime Kuma, systemd, Restic, Backblaze B2.</dd>
-              </div>
-              <div>
-                <dt>What it demonstrates</dt>
-                <dd>That I care about how software behaves after deployment, including failure and recovery.</dd>
-              </div>
-            </dl>
-          </div>
-        </article>
+          </article>
 
-        <article class="project">
-          <div class="project-heading">
-            <div>
-              <p class="project-type">Educational systems · RAG</p>
-              <h3>RAG Interactive</h3>
+          <article class="project-card">
+            <p class="project-type">Educational systems · RAG</p>
+            <h3>RAG Interactive</h3>
+            <p>An interactive educational project for understanding retrieval mechanics. It intentionally uses deterministic browser simulations and is not presented as a production RAG system.</p>
+            <ul>
+              <li>chunking, embeddings and cosine similarity</li>
+              <li>Top-K retrieval and context assembly</li>
+              <li>vanilla JavaScript + SVG + tests</li>
+            </ul>
+            <div class="card-links">
+              <a class="project-link" href="https://github.com/92pablocosta/rag-interactive">Repository <span aria-hidden="true">↗</span></a>
+              <a class="project-link" href="https://www.rag-interactive.com">Interactive site <span aria-hidden="true">↗</span></a>
             </div>
-            <p class="project-number">04</p>
-          </div>
-          <div class="project-grid">
-            <div class="project-summary">
-              <p class="project-lede">An interactive educational project for understanding how information moves through a Retrieval-Augmented Generation pipeline.</p>
-              <p>It intentionally uses deterministic browser simulations and does not present itself as production RAG. There is currently no Python backend, model-generated embedding pipeline, or vector database behind the experience.</p>
-              <div class="evidence-links">
-                <a href="https://github.com/92pablocosta/rag-interactive">View repository <span aria-hidden="true">↗</span></a>
-                <a href="https://www.rag-interactive.com">Open interactive site <span aria-hidden="true">↗</span></a>
-              </div>
-            </div>
-            <dl class="project-details">
-              <div>
-                <dt>Concepts</dt>
-                <dd>Chunking, embeddings, cosine similarity, Top-K retrieval, context assembly, prompting and grounding.</dd>
-              </div>
-              <div>
-                <dt>Implementation</dt>
-                <dd>HTML, CSS, vanilla JavaScript, SVG, deterministic retrieval simulations and logic tests.</dd>
-              </div>
-              <div>
-                <dt>What it demonstrates</dt>
-                <dd>Conceptual understanding, technical communication, interaction design and careful labeling of simplifications.</dd>
-              </div>
-            </dl>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
     </section>
 
     <section class="approach" id="approach" aria-labelledby="approach-title">
-      <div class="shell approach-grid">
-        <div class="section-heading section-heading-dark">
-          <p class="section-index">02</p>
+      <div class="shell">
+        <div class="approach-head">
           <div>
-            <h2 id="approach-title">Engineering approach</h2>
-            <p>Where I draw the boundary between model behavior and software behavior.</p>
+            <p class="eyebrow eyebrow-dark">Engineering approach</p>
+            <h2 id="approach-title">Practical AI.<br>Real-world systems.</h2>
           </div>
+          <p>LLMs are useful components, but they are unreliable places to hide application state, authorization, or side effects.</p>
         </div>
-        <div class="principles">
-          <p>LLMs are useful components, but they are unreliable places to hide application state or authorization.</p>
-          <ul>
-            <li><span>01</span> Treat model output as untrusted input.</li>
-            <li><span>02</span> Keep application state outside conversation context.</li>
-            <li><span>03</span> Put external side effects behind deterministic integrations and verify the result.</li>
-            <li><span>04</span> Treat human handoff as a normal system outcome.</li>
-          </ul>
-        </div>
+
+        <ol class="principles">
+          <li>
+            <span class="principle-number">01</span>
+            <h3>Treat model output as untrusted input.</h3>
+            <p>Validate, constrain, and expect unexpected output.</p>
+          </li>
+          <li>
+            <span class="principle-number">02</span>
+            <h3>Keep state outside the model.</h3>
+            <p>Conversation context is not application state.</p>
+          </li>
+          <li>
+            <span class="principle-number">03</span>
+            <h3>Make side effects deterministic.</h3>
+            <p>External actions should be explicit, observable, and verified.</p>
+          </li>
+          <li>
+            <span class="principle-number">04</span>
+            <h3>Design human handoff as an outcome.</h3>
+            <p>Escalation is part of the architecture, not a failure mode.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <section class="about" id="about" aria-labelledby="about-title">
-      <div class="shell about-grid">
-        <div class="section-heading">
-          <p class="section-index">03</p>
-          <div>
-            <h2 id="about-title">About</h2>
-          </div>
-        </div>
-        <div class="about-copy">
+    <section class="about-contact" id="about" aria-labelledby="about-title">
+      <div class="shell about-contact-grid">
+        <div class="about-block">
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">Software around the model matters.</h2>
           <p>I’m a Brazilian software developer focused on Python, APIs, automation, and LLM applications. I completed a degree in Internet Systems at UNIESP in July 2026.</p>
-          <p>I spent four years living and working in Australia, and I work fluently in English. I’m currently deepening my backend Python work while continuing to build and operate automation systems end to end.</p>
-          <p>I’m looking for remote roles in Applied AI, AI automation, LLM applications, and Python backend engineering where the work involves real systems rather than model demos in isolation.</p>
+          <p>I spent four years living and working in Australia and work fluently in English. I’m continuing to deepen my backend Python work while building and operating automation systems end to end.</p>
         </div>
-      </div>
-    </section>
 
-    <section class="contact" id="contact" aria-labelledby="contact-title">
-      <div class="shell contact-grid">
-        <div>
-          <p class="section-index">04</p>
-          <h2 id="contact-title">Want to talk?</h2>
-        </div>
-        <div>
-          <p>If the work above is relevant to what you’re building, email is the simplest way to reach me.</p>
+        <div class="contact-block" id="contact">
+          <p class="eyebrow">Contact</p>
+          <h2>Open to remote engineering roles.</h2>
+          <p>I’m interested in Applied AI, AI automation, LLM application, and Python backend roles where the model is one component of a real software system.</p>
           <a class="contact-email" href="mailto:92pablocosta@gmail.com">92pablocosta@gmail.com <span aria-hidden="true">↗</span></a>
           <div class="footer-links">
             <a href="https://github.com/92pablocosta">GitHub</a>
@@ -276,8 +244,11 @@
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <span>© 2026 Pablo Costa</span>
-      <span>Built with HTML and CSS.</span>
+      <div>
+        <strong>Pablo Costa</strong>
+        <span>Python / Applied AI Engineer</span>
+      </div>
+      <span>Brazil · Open to remote roles worldwide</span>
     </div>
   </footer>
 
